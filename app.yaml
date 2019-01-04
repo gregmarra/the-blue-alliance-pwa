@@ -1,0 +1,33 @@
+service: pwa-ssr
+runtime: nodejs8
+
+automatic_scaling:
+  max_idle_instances: 1
+
+handlers:
+# Long cache times
+- url: /static
+  static_dir: build/public/static
+  expiration: "365d"
+
+# # Short cache times
+# - url: /index.html
+#   static_files: build/index.html
+#   upload: build/index.html
+#   expiration: "1s"  # 0s doesn't work
+
+# - url: /service-worker.js
+#   static_files: build/service-worker.js
+#   upload: build/service-worker.js
+#   expiration: "1s"  # 0s doesn't work
+
+# Catch all other files
+- url: /(.*\..+)$
+  static_files: build/public/\1
+  upload: build/public/.*$
+
+# Application dynamic routes
+- url: /.*
+  secure: always
+  redirect_http_response_code: 301
+  script: auto

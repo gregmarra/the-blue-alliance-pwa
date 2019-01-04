@@ -8,7 +8,7 @@ Currently at https://beta.thebluealliance.com
 
 `npm install` to install packages
 
-`npm start` to run the app in development mode at [http://localhost:3000](http://localhost:3000)
+`npm run dev` to run the app in development mode at [http://localhost:3000](http://localhost:3000)
 
 `npm test` to run tests
 
@@ -16,7 +16,7 @@ Currently at https://beta.thebluealliance.com
 
 `npm run deploy` to deploy to production
 
-`npm run start:prod` to run the production server
+`npm start` to run the production server
 
 ## Made With
 

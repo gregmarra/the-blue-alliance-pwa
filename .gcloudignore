@@ -1,0 +1,7 @@
+# Ignore everything for deployment
+*
+
+# Whitelist these
+!/build/**
+!/app.yaml
+!/package.json
