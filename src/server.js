@@ -4,6 +4,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
+import Helmet from 'react-helmet';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { SheetsRegistry } from 'jss';
 import uglifycss from 'uglifycss';
@@ -63,6 +64,7 @@ server
       </Provider>
     );
 
+    const helmet = Helmet.renderStatic();
     const css = uglifycss.processString(sheetsRegistry.toString());
     const state = JSON.stringify(store.getState()).replace(/</g, '\\u003c'); // Be careful of XSS
 
@@ -74,7 +76,8 @@ server
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8" />
-    <title>The Blue Alliance</title>
+    ${helmet.title.toString()}
+    ${helmet.meta.toString()}
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#3F51B5" />
