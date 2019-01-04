@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-// import clipboard from 'clipboard-polyfill'
+import clipboard from 'clipboard-polyfill'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { goBack } from 'connected-react-router'
@@ -59,7 +59,7 @@ class TBAAppBar extends PureComponent {
         url: document.URL,
       })
     } else {
-      // clipboard.writeText(document.URL)
+      clipboard.writeText(document.URL)
       this.setState({ snackbarOpen: true, snackbarOpenedOnce: true })
     }
   }
