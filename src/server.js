@@ -2,7 +2,7 @@ import express from 'express';
 import compression from 'compression';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter, matchPath } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import Helmet from 'react-helmet';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -13,6 +13,7 @@ import { createGenerateClassName } from '@material-ui/core/styles';
 
 import App from './App';
 import createStore from './store/createStore';
+import routes from './routes'
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -54,24 +55,41 @@ server
     const sheetsRegistry = new SheetsRegistry();
     const generateClassName = createGenerateClassName();
 
-    const markup = renderToString(
-      <Provider store={store}>
-        <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-          <StaticRouter context={context} location={req.url}>
-            <App />
-          </StaticRouter>
-        </JssProvider>
-      </Provider>
-    );
+    // Run getInitialData() lifecycle hook on matching routes
+    const matches = routes.map((route, index) => {
+      const match = matchPath(req.url, route.path, route);
+      if (match) {
+        const obj = {
+          route,
+          match,
+          promise: route.component.getInitialData
+            ? route.component.getInitialData({ store })
+            : null,
+        };
+        return obj;
+      }
+      return null;
+    });
+    const getInitialDataPromises = matches.map(match => (match ? match.promise : null));
+    Promise.all(getInitialDataPromises).then(() => {
+      const markup = renderToString(
+        <Provider store={store}>
+          <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+            <StaticRouter context={context} location={req.url}>
+              <App />
+            </StaticRouter>
+          </JssProvider>
+        </Provider>
+      );
 
-    const helmet = Helmet.renderStatic();
-    const css = uglifycss.processString(sheetsRegistry.toString());
-    const state = JSON.stringify(store.getState()).replace(/</g, '\\u003c'); // Be careful of XSS
+      const helmet = Helmet.renderStatic();
+      const css = uglifycss.processString(sheetsRegistry.toString());
+      const state = JSON.stringify(store.getState()).replace(/</g, '\\u003c'); // Be careful of XSS
 
-    if (context.url) {
-      res.redirect(context.url);
-    } else {
-      const html = `<!doctype html>
+      if (context.url) {
+        res.redirect(context.url);
+      } else {
+        const html = `<!doctype html>
   <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -102,19 +120,20 @@ server
   </body>
 </html>`
 
-      if (context.statusCode) {
-        res.status(context.statusCode);
-      } else {
-        res.status(200);
-        // Only cache 200 responses
-        cache.set(cacheKey, html);
-      }
+        if (context.statusCode) {
+          res.status(context.statusCode);
+        } else {
+          res.status(200);
+          // Only cache 200 responses
+          cache.set(cacheKey, html);
+        }
 
-      // Cache and send final HTML
-      res.setHeader('x-ssr-cache', 'MISS');
-      res.send(html);
-      logCacheInfo(false);
-    }
+        // Cache and send final HTML
+        res.setHeader('x-ssr-cache', 'MISS');
+        res.send(html);
+        logCacheInfo(false);
+      }
+    })
   });
 
 export default server;
