@@ -64,10 +64,10 @@ class TBAPage extends PureComponent {
       title,
       metaDescription,
       metaImage,
-      sections,
-      subSections,
-      sectionOffsetTops,
-      maintainSectionSpacing
+      // sections,
+      // subSections,
+      // sectionOffsetTops,
+      // maintainSectionSpacing
     } = this.props
 
     return (
