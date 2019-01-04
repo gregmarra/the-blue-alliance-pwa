@@ -1,10 +1,8 @@
 import React from 'react';
-import Route from 'react-router-dom/Route';
-import Switch from 'react-router-dom/Switch';
+import { Route } from 'react-router-dom'
 
 import TBAThemeProvider from './components/TBAThemeProvider';
-import HomePage from './pages/HomePage';
-import NotFoundPage from './pages/NotFoundPage';
+import ModalRouteSwitch from './components/ModalRouteSwitch';
 import ErrorPage from './pages/ErrorPage';
 
 class App extends React.Component {
@@ -29,10 +27,7 @@ class App extends React.Component {
         {this.state.hasError ?
           <ErrorPage />
           :
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact component={NotFoundPage} />
-          </Switch>
+          <Route component={ModalRouteSwitch} />
         }
       </TBAThemeProvider>
     );
