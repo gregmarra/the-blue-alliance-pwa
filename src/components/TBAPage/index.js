@@ -76,7 +76,7 @@ class TBAPage extends PureComponent {
           <title>{title}</title>
           <meta
             name='description'
-            content={metaDescription ? metaDescription : 'The Blue Alliance is the best way to scout, watch, and relive the FIRST Robotics Competition.'}
+            content={metaDescription ? metaDescription : 'FIRST Robotics Competition teams, events, videos, results, and more!'}
           />
           <meta
             name='og:image'
