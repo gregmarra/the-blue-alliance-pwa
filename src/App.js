@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom'
 
 import TBAThemeProvider from './components/TBAThemeProvider';
+import TBANav from './components/TBANav'
 import ModalRouteSwitch from './components/ModalRouteSwitch';
 import ErrorPage from './pages/ErrorPage';
 
@@ -27,7 +28,10 @@ class App extends React.Component {
         {this.state.hasError ?
           <ErrorPage />
           :
-          <Route component={ModalRouteSwitch} />
+          <React.Fragment>
+            <TBANav />
+            <Route component={ModalRouteSwitch} />
+          </React.Fragment>
         }
       </TBAThemeProvider>
     );

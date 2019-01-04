@@ -50,7 +50,7 @@ class TBAThemeProvider extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  darkTheme: false, // state.getIn(['appState', 'darkTheme']), // TODO: Get from Redux
+  darkTheme: state.getIn(['appState', 'darkTheme']),
 })
 
 const mapDispatchToProps = (dispatch) => ({
