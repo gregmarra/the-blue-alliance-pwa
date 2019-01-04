@@ -6,12 +6,16 @@ const server = http.createServer(app);
 
 let currentApp = app;
 
-server.listen(process.env.PORT || 3000, error => {
+// Prevent PORT from being inlined during build
+const getEnv = c => process.env[c];
+const PORT = getEnv('PORT') || 3000;
+
+server.listen(PORT, error => {
   if (error) {
     console.log(error);
   }
 
-  console.log('🚀 started');
+  console.log(`🚀 started on port: ${PORT}`);
 });
 
 if (module.hot) {
