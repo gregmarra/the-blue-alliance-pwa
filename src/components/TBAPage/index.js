@@ -74,10 +74,10 @@ class TBAPage extends PureComponent {
       <React.Fragment>
         <TBAHelmet>
           <title>{title}</title>
-          {metaDescription && <meta
+          <meta
             name='description'
-            content={metaDescription}
-          />}
+            content={metaDescription ? metaDescription : 'The Blue Alliance is the best way to scout, watch, and relive the FIRST Robotics Competition.'}
+          />
           <meta
             name='og:image'
             content={metaImage ? metaImage : 'https://beta.thebluealliance.com/icon-512.png'}
