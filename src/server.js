@@ -1,6 +1,7 @@
 import express from 'express';
 import compression from 'compression';
 import React from 'react';
+import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -10,6 +11,7 @@ import LRUCache from 'lru-cache';
 import { createGenerateClassName } from '@material-ui/core/styles';
 
 import App from './App';
+import createStore from './store/createStore';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -46,19 +48,23 @@ server
       return
     }
 
+    const { store } = createStore(req.url);
     const context = {};
     const sheetsRegistry = new SheetsRegistry();
     const generateClassName = createGenerateClassName();
 
     const markup = renderToString(
-      <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-        <StaticRouter context={context} location={req.url}>
-          <App />
-        </StaticRouter>
-      </JssProvider>
+      <Provider store={store}>
+        <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+          <StaticRouter context={context} location={req.url}>
+            <App />
+          </StaticRouter>
+        </JssProvider>
+      </Provider>
     );
 
     const css = uglifycss.processString(sheetsRegistry.toString());
+    const state = JSON.stringify(store.getState()).replace(/</g, '\\u003c'); // Be careful of XSS
 
     if (context.url) {
       res.redirect(context.url);
@@ -89,6 +95,7 @@ server
   </head>
   <body>
     <div id="root">${markup}</div>
+    <script id="preloaded-state-server-side">window.__PRELOADED_STATE__ = ${state}</script>
   </body>
 </html>`
 

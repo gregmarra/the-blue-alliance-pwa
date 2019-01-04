@@ -1,5 +1,5 @@
 import React from 'react'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { withStyles } from '@material-ui/core/styles'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
@@ -49,15 +49,14 @@ class TBAThemeProvider extends React.Component {
   }
 }
 
-// const mapStateToProps = (state, props) => ({
-//   darkTheme: false, // state.getIn(['appState', 'darkTheme']), // TODO: Get from Redux
-// })
+const mapStateToProps = (state, props) => ({
+  darkTheme: false, // state.getIn(['appState', 'darkTheme']), // TODO: Get from Redux
+})
 
-// const mapDispatchToProps = (dispatch) => ({
-// })
+const mapDispatchToProps = (dispatch) => ({
+})
 
-// export default connect(mapStateToProps, mapDispatchToProps)(TBAThemeProvider)
-export default TBAThemeProvider
+export default connect(mapStateToProps, mapDispatchToProps)(TBAThemeProvider)
 
 const TBAGlobalStyle = withStyles((theme) => ({
   '@global': {

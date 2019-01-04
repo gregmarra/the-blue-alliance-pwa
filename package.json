@@ -13,13 +13,17 @@
   "dependencies": {
     "@material-ui/core": "^3.8.1",
     "compression": "^1.7.3",
+    "connected-react-router": "^6.1.0",
     "express": "4.16.4",
     "lru-cache": "^5.1.1",
     "razzle": "3.0.0-alpha.1",
     "react": "16.7.0",
     "react-dom": "16.7.0",
     "react-jss": "^8.6.1",
+    "react-redux": "^6.0.0",
     "react-router-dom": "4.3.1",
+    "redux": "^4.0.1",
+    "redux-immutable": "^4.0.0",
     "uglifycss": "0.0.29"
   }
 }
