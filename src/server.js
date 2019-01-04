@@ -64,12 +64,15 @@ server
       res.redirect(context.url);
     } else {
       const html = `<!doctype html>
-  <html lang="">
+  <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8" />
     <title>The Blue Alliance</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3F51B5" />
+    <link rel="manifest" href="/manifest.json" />
     ${
       assets.client.css
         ? `<link rel="stylesheet" href="${assets.client.css}">`
