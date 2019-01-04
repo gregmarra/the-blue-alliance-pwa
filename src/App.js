@@ -1,11 +1,15 @@
 import React from 'react';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
-import Home from './pages/Home';
 
 import TBAThemeProvider from './components/TBAThemeProvider';
+import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
+import ErrorPage from './pages/ErrorPage';
 
 class App extends React.Component {
+  state = { hasError: false }
+
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.getElementById('jss-server-side');
@@ -14,12 +18,22 @@ class App extends React.Component {
     }
   }
 
+  componentDidCatch(error, info) {
+    // TODO: Report error
+    this.setState({ hasError: true })
+  }
+
   render() {
     return (
       <TBAThemeProvider>
-        <Switch>
-          <Route exact path="/" component={Home} />
-        </Switch>
+        {this.state.hasError ?
+          <ErrorPage />
+          :
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact component={NotFoundPage} />
+          </Switch>
+        }
       </TBAThemeProvider>
     );
   }

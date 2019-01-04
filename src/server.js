@@ -102,10 +102,17 @@ server
   </body>
 </html>`
 
+      if (context.statusCode) {
+        res.status(context.statusCode);
+      } else {
+        res.status(200);
+        // Only cache 200 responses
+        cache.set(cacheKey, html);
+      }
+
       // Cache and send final HTML
       res.setHeader('x-ssr-cache', 'MISS');
-      res.status(200).send(html);
-      cache.set(cacheKey, html);
+      res.send(html);
       logCacheInfo(false);
     }
   });
