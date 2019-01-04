@@ -18,5 +18,14 @@ hydrate(
 );
 
 if (module.hot) {
-  module.hot.accept();
+  module.hot.accept('./App', () => {
+    hydrate(
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </Provider>,
+      document.getElementById('root')
+    );
+  });
 }
