@@ -1,5 +1,10 @@
 // import Loadable from 'react-loadable';
 import HomePage from './pages/HomePage';
+import EventListPage from './pages/EventListPage';
+import EventPage from './pages/EventPage';
+import MatchPage from './pages/MatchPage';
+import TeamListPage from './pages/TeamListPage';
+import TeamPage from './pages/TeamPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 //const HomePage = Loadable({
@@ -17,6 +22,31 @@ export default [
   {
     path: '/',
     component: HomePage,
+    exact: true,
+  },
+  {
+    path: '/events/:year?',
+    component: EventListPage,
+    exact: true,
+  },
+  {
+    path: '/event/:eventKey',
+    component: EventPage,
+    exact: true,
+  },
+  {
+    path: '/match/:matchKey',
+    component: MatchPage,
+    exact: true,
+  },
+  {
+    path: '/teams',
+    component: TeamListPage,
+    exact: true,
+  },
+  {
+    path: '/team/:teamNumber/:year?',
+    component: TeamPage,
     exact: true,
   },
   {
