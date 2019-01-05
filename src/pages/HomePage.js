@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import { withStyles } from '@material-ui/styles'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 // Components
 import Button from '@material-ui/core/Button'
@@ -86,4 +87,4 @@ class HomePage extends PureComponent {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(HomePage))
+)(hoistNonReactStatics(withStyles(styles)(HomePage), HomePage))

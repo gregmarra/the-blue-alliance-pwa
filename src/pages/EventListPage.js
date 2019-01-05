@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react'
 import { withStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 // Actions
 import { fetchYearEvents } from '../actions'
@@ -58,4 +59,4 @@ class EventListPage extends PureComponent {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(EventListPage))
+)(hoistNonReactStatics(withStyles(styles)(EventListPage), EventListPage));

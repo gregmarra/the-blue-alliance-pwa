@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react'
 import { withStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 // Components
 import Typography from '@material-ui/core/Typography'
@@ -31,4 +32,4 @@ class TeamListPage extends PureComponent {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(TeamListPage))
+)(hoistNonReactStatics(withStyles(styles)(TeamListPage), TeamListPage))
