@@ -1,15 +1,15 @@
 import { fromJS, Map, List } from 'immutable'
 import { isServer } from '../utils';
 
-// import Award from './database/Award'
-// import Event from './database/Event'
-// import Match from './database/Match'
-// import Media from './database/Media'
-// import Team from './database/Team'
+// import Award from '../database/Award'
+import Event from '../database/Event'
+// import Match from '../database/Match'
+// import Media from '../database/Media'
+// import Team from '../database/Team'
 
 const MODEL_TYPES = {
   // 'awards': Award,
-  // 'events': Event,
+  'events': Event,
   // 'matches': Match,
   // 'media': Media,
   // 'teams': Team,

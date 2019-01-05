@@ -55,25 +55,29 @@ server
     const sheetsRegistry = new SheetsRegistry();
     const generateClassName = createGenerateClassName();
 
-    // Run getInitialData() lifecycle hook on matching routes
-    const matches = routes.map((route, index) => {
-      const match = matchPath(req.url, route.path, route);
-      if (match) {
-        const obj = {
-          route,
-          match,
-          promise: route.component.getInitialData
-            ? route.component.getInitialData({ store })
-            : null,
-        };
-        return obj;
-      }
-      return null;
-    });
-    const getInitialDataPromises = matches.map(match => (match ? match.promise : null));
     Promise.all([
-      store.dispatch(fetchAPIStatus()),
-    ]).then(() => Promise.all(getInitialDataPromises)).then(() => {
+      store.dispatch(fetchAPIStatus()), // Must be fetched before getInitialData
+    ]).then(() => {
+      // Run getInitialData() lifecycle hook on matching routes
+      const matches = routes.map((route, index) => {
+        const match = matchPath(req.url, route.path, route);
+        if (match) {
+          const obj = {
+            route,
+            match,
+            promise: route.component.getInitialData
+              ? route.component.getInitialData({
+                  dispatch: store.dispatch,
+                  match,
+                })
+              : null,
+          };
+          return obj;
+        }
+        return null;
+      });
+      return Promise.all(matches.map(match => (match ? match.promise : null)));
+    }).then(() => {
       const markup = renderToString(
         <Provider store={store}>
           <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>

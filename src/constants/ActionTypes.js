@@ -6,3 +6,5 @@ export const SET_NAV_VALUE = 'SET_NAV_VALUE'
 
 // API Status
 export const RECEIVE_API_STATUS = 'RECEIVE_API_STATUS'
+
+export const RECEIVE_YEAR_EVENTS = 'RECEIVE_YEAR_EVENTS'

@@ -2,9 +2,11 @@ import * as types from '../constants/ActionTypes'
 import * as sources from '../constants/DataSources'
 import fetch from 'isomorphic-unfetch'
 import moment from 'moment'
+import { getCurrentYear } from '../selectors/CommonPageSelectors'
 import { isProd, isServer, canUseIDB } from '../utils'
 
 import db, {
+  addEvents,
 } from '../database/db'
 
 // App Bar / Nav Drawer
@@ -28,6 +30,7 @@ export const setNav = (value) => ({
 // API Calls
 const BASE_URL = (isProd && isServer) ? 'https://tbatv-prod-hrd.appspot.com' : 'https://www.thebluealliance.com';
 const TBA_KEY = '61bdelekzYp5TY5MueT8OokJsgT1ewwLjywZnTKCAYPCLDeoNnURu1O61DeNy8z3'; // TEMP: TODO replace key eventually
+const FALLBACK_YEAR = moment().year();
 
 const handleErrors = (response) => {
   if (response.status === 304) {
@@ -53,7 +56,7 @@ const handleErrors = (response) => {
 
 const createFetcher = ({
   dispatch,
-  getState,
+  state,
   endpointUrl,
   fetchOptions, // Optional
   fastQuery, // Optional
@@ -67,7 +70,7 @@ const createFetcher = ({
   let dataSource = sources.DEFAULT
 
   // Update from IndexedDB
-  if (canUseIDB && getState().getIn(['appState', 'idbEnabled'])) {
+  if (canUseIDB && state.getIn(['appState', 'idbEnabled'])) {
     if (fastQuery) {
       const fullQueryFast = join ? fastQuery.toArray().then(join) : fastQuery.toArray()
       Promise.all([fullQueryFast, db.apiCalls.get(endpointUrl)]).then(values => {
@@ -96,7 +99,7 @@ const createFetcher = ({
   }
 
   // Update from API
-  if (getState().getIn(['appState', 'apiEnabled'])) {
+  if (state.getIn(['appState', 'apiEnabled'])) {
     dispatch(incrementLoadingCount())
 
     let apiCallPromise = new Promise(resolve => resolve())
@@ -136,11 +139,12 @@ const createFetcher = ({
   }
 }
 
+// Top-level
 export function fetchAPIStatus() {
   return (dispatch, getState) => {
     return createFetcher({
       dispatch,
-      getState,
+      state: getState(),
       endpointUrl: `/api/v3/status`,
       query: db.config.where('key').equals('API_STATUS'),
       transformData: (status) => {
@@ -155,6 +159,31 @@ export function fetchAPIStatus() {
       },
       writeDB: (status) => {
         db.config.put(status)
+      },
+    })
+  }
+}
+
+// EventListPage
+export function fetchYearEvents(year) {
+  return (dispatch, getState) => {
+    const state = getState()
+    year = parseInt(year, 10) || getCurrentYear(state) || FALLBACK_YEAR;
+    return createFetcher({
+      dispatch,
+      state,
+      endpointUrl: `/api/v3/events/${year}`,
+      query: db.events.where('year').equals(year),
+      isCollection: true,
+      createAction: (events) => {
+        return {
+          type: types.RECEIVE_YEAR_EVENTS,
+          year,
+          data: events,
+        }
+      },
+      writeDB: (events) => {
+        addEvents(events)
       },
     })
   }

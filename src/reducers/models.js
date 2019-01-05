@@ -2,7 +2,7 @@ import * as types from '../constants/ActionTypes'
 import { fromJS, List, Map, Set } from 'immutable'
 
 // import Award from '../database/Award'
-// import Event from '../database/Event'
+import Event from '../database/Event'
 // import Match from '../database/Match'
 // import Media from '../database/Media'
 // import Team from '../database/Team'
@@ -121,12 +121,12 @@ const models = (state = Map(), action) => {
     //     'events',
     //     action.eventKey,
     //     new Event(fromJS(action.data)))
-    // case types.RECEIVE_YEAR_EVENTS:
-    //   return updateMulti(
-    //     state,
-    //     'events',
-    //     ['byYear', action.year],
-    //     fromJS(action.data).map(o => new Event(o)))
+    case types.RECEIVE_YEAR_EVENTS:
+      return updateMulti(
+        state,
+        'events',
+        ['byYear', action.year],
+        fromJS(action.data).map(o => new Event(o)))
     // case types.RECEIVE_EVENT_AWARDS:
     //   return updateMulti(
     //     state,
