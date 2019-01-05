@@ -1,3 +1,4 @@
+import './bootstrap';
 import express from 'express';
 import compression from 'compression';
 import React from 'react';
@@ -5,11 +6,10 @@ import { Provider } from 'react-redux';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import Helmet from 'react-helmet';
-import JssProvider from 'react-jss/lib/JssProvider';
-import { SheetsRegistry } from 'jss';
+import { SheetsRegistry } from 'react-jss';
 import uglifycss from 'uglifycss';
 import LRUCache from 'lru-cache';
-import { createGenerateClassName } from '@material-ui/core/styles';
+import { StylesProvider } from '@material-ui/styles';
 
 import { isProd } from './utils';
 import App from './App';
@@ -53,7 +53,6 @@ server
     const { store } = createStore(req.url);
     const context = {};
     const sheetsRegistry = new SheetsRegistry();
-    const generateClassName = createGenerateClassName();
 
     Promise.all([
       store.dispatch(fetchAPIStatus()), // Must be fetched before getInitialData
@@ -80,11 +79,11 @@ server
     }).then(() => {
       const markup = renderToString(
         <Provider store={store}>
-          <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+          <StylesProvider sheetsRegistry={sheetsRegistry} sheetsManager={new Map()}>
             <StaticRouter context={context} location={req.url}>
               <App />
             </StaticRouter>
-          </JssProvider>
+          </StylesProvider>
         </Provider>
       );
 

@@ -1,13 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { withStyles } from '@material-ui/core/styles'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { ThemeProvider, withStyles } from "@material-ui/styles"
+import { createMuiTheme } from '@material-ui/core'
 
 import amber from '@material-ui/core/colors/amber'
 import indigo from '@material-ui/core/colors/indigo'
-
-import { isServer } from '../utils'
 
 const createTheme = darkTheme => {
   return createMuiTheme({
@@ -40,11 +38,11 @@ class TBAThemeProvider extends React.Component {
   render() {
     const { children } = this.props
     return (
-      <MuiThemeProvider theme={this.state.theme} sheetsManager={isServer ? new Map() : null}>
+      <ThemeProvider theme={this.state.theme}>
         <CssBaseline />
         <TBAGlobalStyle />
         {children}
-      </MuiThemeProvider>
+      </ThemeProvider>
     )
   }
 }

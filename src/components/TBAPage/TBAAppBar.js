@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/styles'
 import clipboard from 'clipboard-polyfill'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'

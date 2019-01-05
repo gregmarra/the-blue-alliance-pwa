@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/styles'
 
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'

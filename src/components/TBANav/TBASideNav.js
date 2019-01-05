@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { toggleTheme } from '../../actions'
 // import { withFirebase } from 'react-redux-firebase'
