@@ -40,7 +40,7 @@ class EventListPage extends PureComponent {
   }
 
   render() {
-    const { classes, year, events } = this.props
+    const { year, events } = this.props
 
     return (
       <TBAPage

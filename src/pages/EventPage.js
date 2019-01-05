@@ -20,8 +20,6 @@ const styles = theme => ({
 
 class EventPage extends PureComponent {
   render() {
-    const { classes } = this.props
-
     return (
       <TBAPage title='EVENT NAME'>
         <Typography variant='h4' gutterBottom>EVENT NAME</Typography>

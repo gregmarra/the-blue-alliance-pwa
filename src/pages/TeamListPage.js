@@ -20,8 +20,6 @@ const styles = theme => ({
 
 class TeamListPage extends PureComponent {
   render() {
-    const { classes } = this.props
-
     return (
       <TBAPage title='Teams'>
         <Typography variant='h4' gutterBottom>Teams</Typography>
