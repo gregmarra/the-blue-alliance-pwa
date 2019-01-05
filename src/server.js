@@ -105,16 +105,8 @@ server
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#3F51B5" />
     <link rel="manifest" href="/manifest.json" />
-    ${
-      assets.client.css
-        ? `<link rel="stylesheet" href="${assets.client.css}">`
-        : ''
-    }
-    ${
-      isProd
-        ? `<script src="${assets.client.js}" defer></script>`
-        : `<script src="${assets.client.js}" defer crossorigin></script>`
-    }
+    ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ''}
+    ${isProd ? `<script src="${assets.client.js}" defer></script>` : `<script src="${assets.client.js}" defer crossorigin></script>`}
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <style id="jss-server-side">${css}</style>
