@@ -33,7 +33,6 @@
     "redux": "^4.0.1",
     "redux-immutable": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0",
-    "uglifycss": "0.0.29"
+    "reselect": "^4.0.0"
   }
 }

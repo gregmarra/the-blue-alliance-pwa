@@ -7,7 +7,6 @@ import { StaticRouter, matchPath } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import Helmet from 'react-helmet';
 import { SheetsRegistry } from 'react-jss';
-import uglifycss from 'uglifycss';
 import LRUCache from 'lru-cache';
 import { StylesProvider } from '@material-ui/styles';
 
@@ -89,7 +88,7 @@ server
       );
 
       const helmet = Helmet.renderStatic();
-      const css = uglifycss.processString(sheetsRegistry.toString());
+      const css = sheetsRegistry.toString();
       const state = JSON.stringify(store.getState()).replace(/</g, '\\u003c'); // Be careful of XSS
 
       if (context.url) {
