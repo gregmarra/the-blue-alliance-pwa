@@ -129,7 +129,7 @@ TBAAppBar.propTypes = {
 }
 
 const mapStateToProps = (state, props) => ({
-  // isLoading: state.getIn(['appState', 'loadingCount']) > 0,
+  isLoading: state.getIn(['appState', 'loadingCount']) > 0,
 })
 
 const mapDispatchToProps = (dispatch) => ({

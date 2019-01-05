@@ -11,11 +11,11 @@ import uglifycss from 'uglifycss';
 import LRUCache from 'lru-cache';
 import { createGenerateClassName } from '@material-ui/core/styles';
 
+import { isProd } from './utils';
 import App from './App';
 import createStore from './store/createStore';
 import routes from './routes'
-
-const isProd = process.env.NODE_ENV === 'production';
+import { fetchAPIStatus } from './actions';
 
 // Prepare LRU cache
 const cache = new LRUCache({
@@ -71,7 +71,9 @@ server
       return null;
     });
     const getInitialDataPromises = matches.map(match => (match ? match.promise : null));
-    Promise.all(getInitialDataPromises).then(() => {
+    Promise.all([
+      store.dispatch(fetchAPIStatus()),
+    ]).then(() => Promise.all(getInitialDataPromises)).then(() => {
       const markup = renderToString(
         <Provider store={store}>
           <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>

@@ -19,17 +19,17 @@ const styles = theme => ({
 })
 
 class EventListPage extends PureComponent {
-  static getInitialData({ store }) {
-    const promise = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve('RESULT!');
-      }, 1000);
-    });
+  // static getInitialData({ store }) {
+  //   const promise = new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       resolve('RESULT!');
+  //     }, 1000);
+  //   });
 
-    return Promise.all([
-      promise,
-    ])
-  }
+  //   return Promise.all([
+  //     promise,
+  //   ])
+  // }
 
   render() {
     const { classes } = this.props

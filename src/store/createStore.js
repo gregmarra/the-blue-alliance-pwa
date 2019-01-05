@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router/immutable';
-// import thunk from 'redux-thunk';
+import thunk from 'redux-thunk';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import createRootReducer from '../reducers';
 import { isServer } from '../utils';
@@ -27,7 +27,7 @@ export default (url = '/') => {
 
   const composedEnhancers = compose(
     applyMiddleware(
-      // thunk,
+      thunk,
       routerMiddleware(history),
     ),
     ...enhancers

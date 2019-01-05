@@ -15,8 +15,8 @@ const updateLoadingCount = (state = 0, action) => {
 export const defaultAppState = Map({
   loadingCount: 0,
   darkTheme: false,
-  // apiEnabled: true,
-  // idbEnabled: true,
+  apiEnabled: true,
+  idbEnabled: true,
   navValue: 'home',
   // snackbar: null,
 })
