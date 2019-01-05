@@ -64,6 +64,7 @@ class TBAPage extends PureComponent {
       title,
       metaDescription,
       metaImage,
+      refreshFunction,
       // sections,
       // subSections,
       // sectionOffsetTops,
@@ -85,7 +86,7 @@ class TBAPage extends PureComponent {
         </TBAHelmet>
         <TBAAppBar
           title={title}
-          refreshFunction={this.refreshFunction}
+          refreshFunction={refreshFunction && this.refreshFunction}
         />
         <div className={classes.container}>
           <main className={classes.content}>
