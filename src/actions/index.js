@@ -2,6 +2,7 @@ import * as types from '../constants/ActionTypes'
 import * as sources from '../constants/DataSources'
 import fetch from 'isomorphic-unfetch'
 import moment from 'moment'
+import LRUCache from 'lru-cache';
 import { getCurrentYear } from '../selectors/CommonPageSelectors'
 import { isProd, isServer, canUseIDB } from '../utils'
 
@@ -32,6 +33,9 @@ const BASE_URL = (isProd && isServer) ? 'https://tbatv-prod-hrd.appspot.com' : '
 const TBA_KEY = '61bdelekzYp5TY5MueT8OokJsgT1ewwLjywZnTKCAYPCLDeoNnURu1O61DeNy8z3'; // TEMP: TODO replace key eventually
 const FALLBACK_YEAR = moment().year();
 
+const APICache = new LRUCache({
+  max: 50, // Limit number of items
+});
 const handleErrors = (response) => {
   if (response.status === 304) {
     return undefined
@@ -51,7 +55,19 @@ const handleErrors = (response) => {
       lastModifiedTime: lastModifiedTime ? lastModifiedTime : null,
     })
   }
-  return response.json()
+
+  const responsePromise = response.json();
+  // Manage cache on server
+  responsePromise.then(json =>{
+    const cacheControl = response.headers.get('cache-control').toLowerCase()
+    if (isServer && cacheControl && cacheControl.includes('public')) {
+      const maxAge = cacheControl.match(/max-age=(\d+)/)[1];
+      if (maxAge) {
+        APICache.set(response.url, json, parseInt(maxAge, 10)*1000)
+      }
+    }
+  });
+  return responsePromise
 }
 
 const createFetcher = ({
@@ -106,36 +122,45 @@ const createFetcher = ({
     if (canUseIDB) {
       apiCallPromise = db.apiCalls.get(endpointUrl)
     }
-    return apiCallPromise.then(apiCall => {
-      return fetch(
-        BASE_URL + endpointUrl,
-        fetchOptions ? fetchOptions : {headers: {
-          'X-TBA-Auth-Key': TBA_KEY,
-          'If-Modified-Since': apiCall ? apiCall.lastModified : null,
-        }},
-      )
-      .then(handleErrors)
-      .then(data => {
-        if (dataSource < sources.API && data !== undefined) {
-          dataSource = sources.API
-          if (transformData) {
-            data = transformData(data)
-          }
-          dispatch(createAction(data))
 
-          // Delete old db entries and write new ones
-          if (canUseIDB) {
-            query.delete()
-            writeDB(data)
-          }
+    const url = BASE_URL + endpointUrl
+    const cachedAPIResponse = APICache.get(url)
+    let dataPromise
+    if (isServer && cachedAPIResponse) {
+      dataPromise = new Promise(resolve => resolve(cachedAPIResponse));
+    } else {
+      dataPromise = apiCallPromise.then(apiCall => {
+        return fetch(
+          url,
+          fetchOptions ? fetchOptions : {headers: {
+            'X-TBA-Auth-Key': TBA_KEY,
+            'If-Modified-Since': apiCall ? apiCall.lastModified : null,
+          }},
+        )
+        .then(handleErrors)
+      });
+    }
+
+    return dataPromise.then(data => {
+      if (dataSource < sources.API && data !== undefined) {
+        dataSource = sources.API
+        if (transformData) {
+          data = transformData(data)
         }
-        dispatch(decrementLoadingCount())
-      })
-      .catch(error => {
-        dispatch(decrementLoadingCount())
-        console.log(error)
-      })
+        dispatch(createAction(data))
+
+        // Delete old db entries and write new ones
+        if (canUseIDB) {
+          query.delete()
+          writeDB(data)
+        }
+      }
+      dispatch(decrementLoadingCount())
     })
+    .catch(error => {
+      dispatch(decrementLoadingCount())
+      console.log(error)
+    });
   }
 }
 
