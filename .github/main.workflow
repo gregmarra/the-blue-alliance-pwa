@@ -1,21 +1,32 @@
 workflow "Build and deploy" {
   on = "push"
-  resolves = ["Deploy", "Setup Google Cloud"]
+  resolves = [
+    "Deploy branch filter",
+    "Setup Google Cloud",
+    "Deploy",
+  ]
+}
+
+action "Deploy branch filter" {
+  uses = "actions/bin/filter@b2bea07"
+  args = "branch master"
 }
 
 action "Install packages" {
   uses = "actions/npm@e7aaefe"
-  runs = "install"
+  args = "install"
+  needs = ["Deploy branch filter"]
 }
 
 action "Build" {
   uses = "actions/npm@e7aaefe"
-  runs = "run build"
   needs = ["Install packages"]
+  args = "run build"
 }
 
 action "Setup Google Cloud" {
   uses = "actions/gcloud/auth@8ec8bfa"
+  needs = ["Deploy branch filter"]
   secrets = ["GCLOUD_AUTH"]
 }
 
