@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { withStyles } from '@material-ui/styles'
-import hoistNonReactStatics from 'hoist-non-react-statics';
 
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
