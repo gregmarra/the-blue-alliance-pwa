@@ -13,6 +13,7 @@ class Countdown extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.updateTime();
     this.interval = setInterval(this.updateTime, this.props.interval);
   }
 
