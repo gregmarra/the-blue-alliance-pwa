@@ -38,10 +38,12 @@ server
   .use(compression())
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
-    const cacheKey = `${req.url}`
-    total++
+    // Set common headers
+    res.setHeader('Vary', 'Accept-Encoding');  // Need to manually set for 304 responses
 
     // If a page is cached in production, serve it
+    const cacheKey = `${req.url}`
+    total++
     if (isProd && cache.has(cacheKey)) {
       res.setHeader('x-ssr-cache', 'HIT')
       res.send(cache.get(cacheKey))

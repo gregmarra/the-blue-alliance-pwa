@@ -11,16 +11,22 @@ handlers:
 - url: /static
   static_dir: build/public/static
   expiration: "365d"
+  http_headers:
+    Vary: Accept-Encoding
 
 # Special case caching
 - url: /manifest.json
   static_files: build/public/manifest.json
   upload: build/public/manifest.json
+  http_headers:
+    Vary: Accept-Encoding
 
 - url: /robots.txt
   static_files: build/public/robots.txt
   upload: build/public/robots.txt
   expiration: "1d"
+  http_headers:
+    Vary: Accept-Encoding
 
 # - url: /index.html
 #   static_files: build/index.html
@@ -35,6 +41,8 @@ handlers:
   static_files: build/public/\1
   upload: build/public/.*$
   expiration: "7d"
+  http_headers:
+    Vary: Accept-Encoding
 
 # Application dynamic routes
 - url: /.*
