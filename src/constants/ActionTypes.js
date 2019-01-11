@@ -4,6 +4,10 @@ export const DECREMENT_LOADING_COUNT = 'DECREMENT_LOADING_COUNT'
 export const TOGGLE_THEME = 'TOGGLE_THEME'
 export const SET_NAV_VALUE = 'SET_NAV_VALUE'
 
+// Snackbars
+export const OPEN_SNACKBAR = 'OPEN_SNACKBAR'
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR'
+
 // API Status
 export const RECEIVE_API_STATUS = 'RECEIVE_API_STATUS'
 

@@ -39,12 +39,12 @@ const appState = (state = defaultAppState, action) => {
     case types.SET_NAV_VALUE:
       return state
         .set('navValue', action.value)
-    // case types.OPEN_SNACKBAR:
-    //   return state
-    //     .set('snackbar', action.value)
-    // case types.CLOSE_SNACKBAR:
-    //   return state
-    //     .set('snackbar', null)
+    case types.OPEN_SNACKBAR:
+      return state
+        .set('snackbar', action.value)
+    case types.CLOSE_SNACKBAR:
+      return state
+        .set('snackbar', null)
     default:
       return state
   }
