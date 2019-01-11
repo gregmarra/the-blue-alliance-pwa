@@ -31,6 +31,11 @@ const logCacheInfo = (hit) => {
 }
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+const scripts = Object.entries(assets).map(asset => {
+  if (asset[0] && asset[1].js) {
+    return isProd ? `<script src="${asset[1].js}" defer></script>` : `<script src="${asset[1].js}" defer crossorigin></script>`
+  }
+}).join('');
 
 const server = express();
 server
@@ -115,8 +120,8 @@ server
   </head>
   <body>
     <div id="root">${markup}</div>
-    ${isProd ? `<script src="${assets.client.js}" defer></script>` : `<script src="${assets.client.js}" defer crossorigin></script>`}
     <script id="preloaded-state-server-side">window.__PRELOADED_STATE__ = ${state}</script>
+    ${scripts}
   </body>
 </html>`
 

@@ -6,6 +6,31 @@ module.exports = {
   modify: (config, { target, dev }, webpack) => {
     const isWeb = target === 'web';
 
+    // Configure vendor bundles
+    // See: https://hackernoon.com/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
+    if (isWeb) {
+      config.optimization = {
+        runtimeChunk: 'single',
+        splitChunks: {
+          chunks: 'all',
+          maxInitialRequests: Infinity,
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name(module) {
+                // get the name. E.g. node_modules/packageName/not/this/part.js
+                // or node_modules/packageName
+                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+                // npm package names are URL-safe, but some servers don't like @ symbols
+                return `npm.${packageName.replace('@', '')}`;
+              },
+            },
+          },
+        },
+      };
+    }
+
     // Ignore all locale files of Moment.js
     // See: https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
