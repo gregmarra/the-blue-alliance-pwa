@@ -1,37 +1,37 @@
 workflow "Build and deploy" {
   on = "push"
   resolves = [
-    "Deploy branch filter",
-    "Setup Google Cloud",
-    "Deploy",
+    "1. Deploy",
   ]
 }
 
-action "Deploy branch filter" {
-  uses = "actions/bin/filter@b2bea07"
-  args = "branch master"
-}
-
-action "Install packages" {
-  uses = "actions/npm@e7aaefe"
+action "1. Install packages" {
+  uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
   args = "install"
-  needs = ["Deploy branch filter"]
 }
 
-action "Build" {
-  uses = "actions/npm@e7aaefe"
-  needs = ["Install packages"]
-  args = "run build"
-}
-
-action "Setup Google Cloud" {
-  uses = "actions/gcloud/auth@8ec8bfa"
-  needs = ["Deploy branch filter"]
+action "2. Authenticate Google Cloud" {
+  uses = "actions/gcloud/auth@8ec8bfad3853155b42cea5eb9f8395b098111228"
   secrets = ["GCLOUD_AUTH"]
 }
 
-action "Deploy" {
-  uses = "actions/gcloud/cli@8ec8bfa"
-  needs = ["Build", "Setup Google Cloud"]
+action "3. Deploy branch filter" {
+  uses = "actions/bin/filter@b2bea0749eed6beb495a8fa194c071847af60ea1"
+  args = "branch master"
+}
+
+action "1. Build" {
+  uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
+  args = "run build"
+  needs = ["1. Install packages"]
+}
+
+action "1. Deploy" {
+  uses = "actions/gcloud/cli@8ec8bfad3853155b42cea5eb9f8395b098111228"
+  needs = [
+    "1. Build",
+    "2. Authenticate Google Cloud",
+    "3. Deploy branch filter",
+  ]
   args = "app deploy --project tbatv-prod-hrd --version 1 --quiet"
 }
