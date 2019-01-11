@@ -36,7 +36,7 @@ const server = express();
 server
   .disable('x-powered-by')
   .use(compression())
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR, {index: false}))
   .get('/*', (req, res) => {
     // Set common headers
     res.setHeader('Vary', 'Accept-Encoding');  // Need to manually set for 304 responses
@@ -96,6 +96,7 @@ server
       if (context.url) {
         res.redirect(context.url);
       } else {
+        // TODO: use ./src/index_template.html
         const html = `<!doctype html>
   <html lang="en">
   <head>

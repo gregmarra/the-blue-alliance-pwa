@@ -7,6 +7,7 @@ import { StylesProvider } from '@material-ui/styles';
 
 import App from './App';
 import createStore from './store/createStore';
+import registerServiceWorker from './registerServiceWorker';
 
 const { store, history } = createStore();
 
@@ -35,3 +36,5 @@ if (module.hot) {
     );
   });
 }
+
+registerServiceWorker(store);

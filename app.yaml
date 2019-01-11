@@ -28,13 +28,17 @@ handlers:
   http_headers:
     Vary: Accept-Encoding
 
-# - url: /index.html
-#   static_files: build/index.html
-#   upload: build/index.html
+- url: /index.html
+  static_files: build/public/index.html
+  upload: build/public/index.html
+  http_headers:
+    Vary: Accept-Encoding
 
-# - url: /service-worker.js
-#   static_files: build/service-worker.js
-#   upload: build/service-worker.js
+- url: /sw.js
+  static_files: build/public/sw.js
+  upload: build/public/sw.js
+  http_headers:
+    Vary: Accept-Encoding
 
 # Catch all other files (long cache)
 - url: /(.*\..+)$
