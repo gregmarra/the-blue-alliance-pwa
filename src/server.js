@@ -110,6 +110,7 @@ server
     ${helmet.title.toString()}
     ${helmet.meta.toString()}
     <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="canonical" href="https://www.thebluealliance.com${req.url}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#3F51B5" />
     <link rel="manifest" href="/manifest.json" />
