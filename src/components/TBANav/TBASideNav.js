@@ -27,6 +27,17 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
 
+// Set defaults so tests don't fail
+let BUILD_TIME;
+let GIT_HASH;
+try {
+  BUILD_TIME = __BUILD_TIME__;
+  GIT_HASH = __GIT_HASH__;
+} catch {
+  BUILD_TIME = '';
+  GIT_HASH = ''
+}
+
 const styles = theme => ({
   root:  {
     zIndex: 1,
@@ -173,15 +184,15 @@ class TBASideNavContent extends PureComponent {
           <div className={classes.buildInfo}>
             <Typography variant='caption' noWrap>
               Build: <a
-                href={`https://github.com/the-blue-alliance/the-blue-alliance-pwa/commit/${__GIT_HASH__}`}
+                href={`https://github.com/the-blue-alliance/the-blue-alliance-pwa/commit/${GIT_HASH}`}
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                {__GIT_HASH__}
+                {GIT_HASH}
               </a>
             </Typography>
             <Typography variant='caption'>
-              {__BUILD_TIME__} UTC
+              {BUILD_TIME} UTC
             </Typography>
           </div>
         </div>
