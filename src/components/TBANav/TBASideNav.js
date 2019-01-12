@@ -175,7 +175,7 @@ class TBASideNavContent extends PureComponent {
         <div>
           <Divider />
           <div className={classes.buildInfo}>
-            <Typography variant='caption'>
+            <Typography variant='caption' noWrap>
               Build: <a
                 href={`https://github.com/the-blue-alliance/the-blue-alliance-pwa/commit/${GIT_HASH}`}
                 target='_blank'

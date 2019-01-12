@@ -4,9 +4,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "RAZZLE_BUILD_TIME=$(date +%s) RAZZLE_GIT_HASH=`git rev-parse --short HEAD` razzle start",
+    "dev": "RAZZLE_BUILD_TIME=$(date +%s) RAZZLE_GIT_HASH=`git rev-parse HEAD` razzle start",
     "test": "razzle test --env=jsdom",
-    "build": "RAZZLE_BUILD_TIME=$(date +%s) RAZZLE_GIT_HASH=`git rev-parse --short HEAD` razzle build",
+    "build": "RAZZLE_BUILD_TIME=$(date +%s) RAZZLE_GIT_HASH=`git rev-parse HEAD` razzle build",
     "build:github": "RAZZLE_BUILD_TIME=$(date +%s) RAZZLE_GIT_HASH=$GITHUB_SHA razzle build",
     "deploy": "gcloud --project tbatv-prod-hrd app deploy --version 1 --quiet",
     "start": "NODE_ENV=production node build/server.js"
