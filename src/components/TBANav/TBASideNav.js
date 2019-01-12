@@ -5,7 +5,6 @@ import { withStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { toggleTheme } from '../../actions'
 // import { withFirebase } from 'react-redux-firebase'
-import moment from 'moment'
 
 import HomeIcon from '@material-ui/icons/Home'
 import StarIcon from '@material-ui/icons/Star'
@@ -27,9 +26,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
-
-const BUILD_TIME = moment.unix(process.env.RAZZLE_BUILD_TIME).utc().format('YYYY-MM-DD HH:mm:ss');
-const GIT_HASH = process.env.RAZZLE_GIT_HASH;
 
 const styles = theme => ({
   root:  {
@@ -177,15 +173,15 @@ class TBASideNavContent extends PureComponent {
           <div className={classes.buildInfo}>
             <Typography variant='caption' noWrap>
               Build: <a
-                href={`https://github.com/the-blue-alliance/the-blue-alliance-pwa/commit/${GIT_HASH}`}
+                href={`https://github.com/the-blue-alliance/the-blue-alliance-pwa/commit/${__GIT_HASH__}`}
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                {GIT_HASH}
+                {__GIT_HASH__}
               </a>
             </Typography>
             <Typography variant='caption'>
-              {BUILD_TIME} UTC
+              {__BUILD_TIME__} UTC
             </Typography>
           </div>
         </div>

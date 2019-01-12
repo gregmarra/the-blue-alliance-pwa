@@ -1,0 +1,7 @@
+{
+  "extends": "react-app",
+  "globals": {
+    "__BUILD_TIME__": true,
+    "__GIT_HASH__": true
+  }
+}

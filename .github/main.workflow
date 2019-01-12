@@ -22,7 +22,7 @@ action "3. Deploy branch filter" {
 
 action "1. Build" {
   uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
-  args = "run build:github"
+  args = "run build"
   needs = ["1. Install packages"]
 }
 

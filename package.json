@@ -4,12 +4,11 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "RAZZLE_BUILD_TIME=$(date +%s) RAZZLE_GIT_HASH=`git rev-parse HEAD` razzle start",
+    "dev": "razzle start",
     "test": "razzle test --env=jsdom",
-    "build": "RAZZLE_BUILD_TIME=$(date +%s) RAZZLE_GIT_HASH=`git rev-parse HEAD` razzle build",
-    "build:github": "RAZZLE_BUILD_TIME=$(date +%s) RAZZLE_GIT_HASH=$GITHUB_SHA razzle build",
+    "build": "razzle build",
     "deploy": "gcloud --project tbatv-prod-hrd app deploy --version 1 --quiet",
-    "start": "NODE_ENV=production node build/server.js"
+    "start": "cross-env NODE_ENV=production node build/server.js"
   },
   "dependencies": {
     "@material-ui/core": "^3.8.2",
@@ -38,6 +37,7 @@
     "reselect": "^4.0.0"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "html-webpack-plugin": "^3.2.0",
     "webpack-bundle-analyzer": "^3.0.3",
     "workbox-webpack-plugin": "^3.6.3"
