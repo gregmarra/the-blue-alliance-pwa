@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { toggleTheme } from '../../actions'
 // import { withFirebase } from 'react-redux-firebase'
+import moment from 'moment'
 
 import HomeIcon from '@material-ui/icons/Home'
 import StarIcon from '@material-ui/icons/Star'
@@ -14,6 +15,7 @@ import PeopleIcon from '@material-ui/icons/People'
 // import PersonIcon from '@material-ui/icons/Person'
 
 // import Avatar from '@material-ui/core/Avatar'
+import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import List from '@material-ui/core/List'
@@ -24,7 +26,10 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Switch from '@material-ui/core/Switch'
-import Divider from '@material-ui/core/Divider'
+import Typography from '@material-ui/core/Typography'
+
+const BUILD_TIME = moment.unix(process.env.RAZZLE_BUILD_TIME).utc().format('YYYY-MM-DD HH:mm:ss');
+const GIT_HASH = process.env.RAZZLE_GIT_HASH;
 
 const styles = theme => ({
   root:  {
@@ -32,15 +37,22 @@ const styles = theme => ({
     position: 'absolute',
   },
   content: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     width: 190,
     marginTop: 64,
     overflowY: 'auto',
+    height: '100%',
   },
   activeIcon: {
     color: theme.palette.primary.main,
   },
   activeText: {
     fontWeight: 500,
+  },
+  buildInfo: {
+    padding: theme.spacing.unit,
   },
 })
 
@@ -62,102 +74,121 @@ class TBASideNavContent extends PureComponent {
     return (
     <Drawer className={classes.root} variant="permanent">
       <div className={classes.content}>
-        <List component='div'>
-          <ListItem button component={Link} to="/">
-            <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'home'})}>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" classes={{primary: classNames({[classes.activeText]: navValue === 'home'})}}/>
-          </ListItem>
-          <ListItem button component={Link} to="/mytba">
-            <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'mytba'})}>
-              <StarIcon />
-            </ListItemIcon>
-            <ListItemText primary="myTBA" classes={{primary: classNames({[classes.activeText]: navValue === 'mytba'})}}/>
-          </ListItem>
-          <ListItem button component={Link} to="/gameday">
-            <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'gameday'})}>
-              <VideocamIcon />
-            </ListItemIcon>
-            <ListItemText primary="GameDay" classes={{primary: classNames({[classes.activeText]: navValue === 'gameday'})}}/>
-          </ListItem>
-          <ListItem button component={Link} to="/events">
-            <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'events'})}>
-              <EventIcon />
-            </ListItemIcon>
-            <ListItemText primary="Events" classes={{primary: classNames({[classes.activeText]: navValue === 'events'})}}/>
-          </ListItem>
-          <ListItem button component={Link} to="/teams">
-            <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'teams'})}>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Teams" classes={{primary: classNames({[classes.activeText]: navValue === 'teams'})}}/>
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListSubheader>Temp for testing</ListSubheader>
-          <ListItem>
-            <ListItemText primary={darkTheme ? "Dark Theme" : "Light Theme"} />
-            <ListItemSecondaryAction>
-              <Switch
-                onClick={toggleTheme}
-                checked={!darkTheme}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>
-          {/*<ListItem>
-            <ListItemText primary={apiEnabled ? "API Enabled" : "API Disabled"} />
-            <ListItemSecondaryAction>
-              <Switch
-                onClick={toggleAPI}
-                checked={apiEnabled}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>
-          <ListItem>
-            <ListItemText primary={idbEnabled ? "IDB Enabled" : "IDB Disabled"} />
-            <ListItemSecondaryAction>
-              <Switch
-                onClick={toggleIDB}
-                checked={idbEnabled}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>*/}
-          <ListItem disableGutters>
-            <LinearProgress style={{width: '100%'}}/>
-          </ListItem>
-        </List>
-        <Divider />
-        {/*<List component='div'>
-          {auth.isEmpty ?
-            <ListItem
-              button
-              component='div'
-              onClick={promptSignInOpen}
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <PersonIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary='Sign In' />
+        <div>
+          <List component='div'>
+            <ListItem button component={Link} to="/">
+              <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'home'})}>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Home" classes={{primary: classNames({[classes.activeText]: navValue === 'home'})}}/>
             </ListItem>
-            :
-            <ListItem
-              button
-              component={Link}
-              to='/account'
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  {auth.isEmpty ? <PersonIcon /> : <Avatar alt={auth.displayName} src={auth.photoURL} />}
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary='Account' classes={{primary: classNames({[classes.activeText]: navValue === 'account'})}} />
+            <ListItem button component={Link} to="/mytba">
+              <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'mytba'})}>
+                <StarIcon />
+              </ListItemIcon>
+              <ListItemText primary="myTBA" classes={{primary: classNames({[classes.activeText]: navValue === 'mytba'})}}/>
             </ListItem>
-          }
-        </List>*/}
+            <ListItem button component={Link} to="/gameday">
+              <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'gameday'})}>
+                <VideocamIcon />
+              </ListItemIcon>
+              <ListItemText primary="GameDay" classes={{primary: classNames({[classes.activeText]: navValue === 'gameday'})}}/>
+            </ListItem>
+            <ListItem button component={Link} to="/events">
+              <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'events'})}>
+                <EventIcon />
+              </ListItemIcon>
+              <ListItemText primary="Events" classes={{primary: classNames({[classes.activeText]: navValue === 'events'})}}/>
+            </ListItem>
+            <ListItem button component={Link} to="/teams">
+              <ListItemIcon className={classNames({[classes.activeIcon]: navValue === 'teams'})}>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Teams" classes={{primary: classNames({[classes.activeText]: navValue === 'teams'})}}/>
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListSubheader>Temp for testing</ListSubheader>
+            <ListItem>
+              <ListItemText primary={darkTheme ? "Dark Theme" : "Light Theme"} />
+              <ListItemSecondaryAction>
+                <Switch
+                  onClick={toggleTheme}
+                  checked={!darkTheme}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+            {/*<ListItem>
+              <ListItemText primary={apiEnabled ? "API Enabled" : "API Disabled"} />
+              <ListItemSecondaryAction>
+                <Switch
+                  onClick={toggleAPI}
+                  checked={apiEnabled}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+              <ListItemText primary={idbEnabled ? "IDB Enabled" : "IDB Disabled"} />
+              <ListItemSecondaryAction>
+                <Switch
+                  onClick={toggleIDB}
+                  checked={idbEnabled}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>*/}
+            <ListItem disableGutters>
+              <LinearProgress style={{width: '100%'}}/>
+            </ListItem>
+          </List>
+          <Divider />
+          {/*<List component='div'>
+            {auth.isEmpty ?
+              <ListItem
+                button
+                component='div'
+                onClick={promptSignInOpen}
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <PersonIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary='Sign In' />
+              </ListItem>
+              :
+              <ListItem
+                button
+                component={Link}
+                to='/account'
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    {auth.isEmpty ? <PersonIcon /> : <Avatar alt={auth.displayName} src={auth.photoURL} />}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary='Account' classes={{primary: classNames({[classes.activeText]: navValue === 'account'})}} />
+              </ListItem>
+            }
+          </List>*/}
+        </div>
+        <div>
+          <Divider />
+          <div className={classes.buildInfo}>
+            <Typography variant='caption'>
+              Build: <a
+                href={`https://github.com/the-blue-alliance/the-blue-alliance-pwa/commit/${GIT_HASH}`}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {GIT_HASH}
+              </a>
+            </Typography>
+            <Typography variant='caption'>
+              {BUILD_TIME} UTC
+            </Typography>
+          </div>
+        </div>
       </div>
     </Drawer>
     )
