@@ -8,7 +8,7 @@ let currentApp = app;
 
 // Prevent PORT from being inlined during build
 const getEnv = c => process.env[c];
-const PORT = getEnv('PORT') || 3000;
+const PORT = getEnv('PORT') || 3001;
 
 server.listen(PORT, error => {
   if (error) {
