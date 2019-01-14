@@ -42,7 +42,6 @@ class HomePage extends PureComponent {
         />
         <Typography gutterBottom>The Blue Alliance is the best way to scout, watch, and relive the <em>FIRST</em> Robotics Competition.</Typography>
         <Typography gutterBottom>Welcome to a beta version of our new app!</Typography>
-        <Typography gutterBottom>Temporary update test #1</Typography>
 
         <Typography gutterBottom>Handy links for testing:</Typography>
         <Button
