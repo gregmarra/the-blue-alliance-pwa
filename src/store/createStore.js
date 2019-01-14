@@ -4,7 +4,8 @@ import thunk from 'redux-thunk';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import createRootReducer from '../reducers';
 import { isServer } from '../utils';
-import preloadState from './preloadState'
+import preloadState from './preloadState';
+import { navValueMiddleware } from './middleware';
 
 export default (url = '/') => {
   // Create a history depending on the environment
@@ -29,6 +30,7 @@ export default (url = '/') => {
     applyMiddleware(
       thunk,
       routerMiddleware(history),
+      navValueMiddleware,
     ),
     ...enhancers
   );

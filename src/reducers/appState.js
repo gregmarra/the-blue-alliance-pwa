@@ -17,7 +17,7 @@ export const defaultAppState = Map({
   darkTheme: false,
   apiEnabled: true,
   idbEnabled: true,
-  navValue: 'home',
+  navValue: null,
   // snackbar: null,
 })
 

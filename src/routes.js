@@ -23,11 +23,13 @@ export default [
     path: '/',
     component: HomePage,
     exact: true,
+    navValue: 'home',
   },
   {
     path: '/events/:year?',
     component: EventListPage,
     exact: true,
+    navValue: 'events',
   },
   {
     path: '/event/:eventKey',
@@ -43,6 +45,7 @@ export default [
     path: '/teams',
     component: TeamListPage,
     exact: true,
+    navValue: 'teams',
   },
   {
     path: '/team/:teamNumber/:year?',

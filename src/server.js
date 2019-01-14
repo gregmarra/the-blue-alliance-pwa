@@ -14,7 +14,7 @@ import { isProd } from './utils';
 import App from './App';
 import createStore from './store/createStore';
 import routes from './routes'
-import { fetchAPIStatus } from './actions';
+import { setNav, fetchAPIStatus } from './actions';
 
 // Prepare LRU cache
 const cache = new LRUCache({
@@ -67,7 +67,11 @@ server
       // Run getInitialData() lifecycle hook on matching routes
       const matches = routes.map((route, index) => {
         const match = matchPath(req.url, route.path, route);
-        if (match) {
+        if (match && (!route.exact || match.isExact)) {
+          // Set navValue based on route
+          if (route.navValue) {
+            store.dispatch(setNav(route.navValue));
+          }
           const obj = {
             route,
             match,
