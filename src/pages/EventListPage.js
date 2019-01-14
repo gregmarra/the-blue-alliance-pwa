@@ -12,10 +12,12 @@ import { getYear } from '../selectors/CommonPageSelectors'
 import { getSortedEvents } from '../selectors/EventListPageSelectors'
 
 // Components
+import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 // TBA Components
 import TBAPage from '../components/TBAPage'
+import EventListCard from '../components/EventListCard'
 
 const mapStateToProps = (state, props) => ({
   year: getYear(state, props),
@@ -49,8 +51,15 @@ class EventListPage extends PureComponent {
         metaDescription={`${year} season FIRST Robotics Competition events list`}
         refreshFunction={this.refreshFunction}
       >
-        <Typography variant='h4' gutterBottom>{year} <i>FIRST</i> Robotics Competition Events</Typography>
-        {events && events.map(event => <div key={event.key}>{event.key}</div>)}
+        <Grid container spacing={16}>
+          <Grid item xs={12} md={3} lg={2}>
+            TODO: YEAR PICKER & SECTIONS
+          </Grid>
+          <Grid item xs={12} md={7} lg={8}>
+            <Typography variant='h4' gutterBottom>{year} <i>FIRST</i> Robotics Competition Events</Typography>
+            {events && <EventListCard events={events}/>}
+          </Grid>
+        </Grid>
       </TBAPage>
     )
   }

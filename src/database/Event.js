@@ -1,5 +1,5 @@
 import { Record } from 'immutable'
-// import moment from 'moment-timezone'
+import moment from 'moment-timezone'
 
 export const REGIONAL = 0
 export const DISTRICT = 1
@@ -47,30 +47,30 @@ export default class Event extends Record({
   webcasts: undefined,
   playoff_type: undefined,
 }) {
-  // // Name
-  // safeShortName() {
-  //   return this.short_name ? this.short_name : this.name
-  // }
+  // Name
+  safeShortName() {
+    return this.short_name ? this.short_name : this.name
+  }
 
-  // // Location
-  // getCityStateCountry() {
-  //   if (this.cityStateCountry === undefined) {
-  //     this.cityStateCountry = ''
-  //     if (this.city) {
-  //         this.cityStateCountry += `${this.city}`
-  //     }
-  //     if (this.state_prov) {
-  //         this.cityStateCountry += `, ${this.state_prov}`
-  //     }
-  //     if (this.country) {
-  //         this.cityStateCountry += `, ${this.country}`
-  //     }
-  //     if (this.cityStateCountry === '') {
-  //         this.cityStateCountry = null
-  //     }
-  //   }
-  //   return this.cityStateCountry
-  // }
+  // Location
+  getCityStateCountry() {
+    if (this.cityStateCountry === undefined) {
+      this.cityStateCountry = ''
+      if (this.city) {
+          this.cityStateCountry += `${this.city}`
+      }
+      if (this.state_prov) {
+          this.cityStateCountry += `, ${this.state_prov}`
+      }
+      if (this.country) {
+          this.cityStateCountry += `, ${this.country}`
+      }
+      if (this.cityStateCountry === '') {
+          this.cityStateCountry = null
+      }
+    }
+    return this.cityStateCountry
+  }
 
   // getCityStateCountryLower() {
   //   if (this.cityStateCountryLower === undefined) {
@@ -83,28 +83,28 @@ export default class Event extends Record({
   //   return this.cityStateCountryLower
   // }
 
-  // // Time
-  // getDateString() {
-  //   if (this.dateStr === undefined) {
-  //     const startDate = moment(this.start_date)
-  //     const endDate = moment(this.end_date)
-  //     this.dateStr = endDate.format('MMM D, YYYY').replace(/ /g, '\u00a0')
-  //     if (this.start_date !== this.end_date) {
-  //       const startDateStr = startDate.format('MMM D')
-  //       this.dateStr = `${startDateStr.replace(/ /g, '\u00a0')} to ${this.dateStr.replace(/ /g, '\u00a0')}`
-  //     }
-  //   }
-  //   return this.dateStr
-  // }
+  // Time
+  getDateString() {
+    if (this.dateStr === undefined) {
+      const startDate = moment(this.start_date)
+      const endDate = moment(this.end_date)
+      this.dateStr = endDate.format('MMM D, YYYY').replace(/ /g, '\u00a0')
+      if (this.start_date !== this.end_date) {
+        const startDateStr = startDate.format('MMM D')
+        this.dateStr = `${startDateStr.replace(/ /g, '\u00a0')} to ${this.dateStr.replace(/ /g, '\u00a0')}`
+      }
+    }
+    return this.dateStr
+  }
 
-  // startMoment() {
-  //   return moment.tz(this.start_date, this.timezone)
-  // }
+  startMoment() {
+    return moment.tz(this.start_date, this.timezone)
+  }
 
-  // endMoment() {
-  //   // Add one day because end_date is 12 AM
-  //   return moment.tz(this.end_date, this.timezone).add(1, 'days')
-  // }
+  endMoment() {
+    // Add one day because end_date is 12 AM
+    return moment.tz(this.end_date, this.timezone).add(1, 'days')
+  }
 
   // withinDays(negativeDaysBefore, daysAfter) {
   //   const now = moment.now()
@@ -113,17 +113,17 @@ export default class Event extends Record({
   //   return afterStart && beforeEnd
   // }
 
-  // isNow() {
-  //   return !this.isPast() && !this.isFuture()
-  // }
+  isNow() {
+    return !this.isPast() && !this.isFuture()
+  }
 
-  // isPast() {
-  //   return this.endMoment() < moment.now()
-  // }
+  isPast() {
+    return this.endMoment() < moment.now()
+  }
 
-  // isFuture() {
-  //   return this.startMoment() > moment.now()
-  // }
+  isFuture() {
+    return this.startMoment() > moment.now()
+  }
 
   // isThisWeek() {
   //   // An event is this week iff
