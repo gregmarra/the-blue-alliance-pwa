@@ -70,7 +70,7 @@ export const closeSnackbar = () => ({
 })
 
 // API Calls
-const BASE_URL = isServer ? 'https://www.thebluealliance.com' : '';
+const BASE_URL = 'https://www.thebluealliance.com';
 const TBA_KEY = '61bdelekzYp5TY5MueT8OokJsgT1ewwLjywZnTKCAYPCLDeoNnURu1O61DeNy8z3'; // TEMP: TODO replace key eventually
 const FALLBACK_YEAR = moment().year();
 
