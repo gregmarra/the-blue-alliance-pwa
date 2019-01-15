@@ -8,7 +8,7 @@ import { renderToString } from 'react-dom/server';
 import Helmet from 'react-helmet';
 import { SheetsRegistry } from 'react-jss';
 import LRUCache from 'lru-cache';
-import { StylesProvider } from '@material-ui/styles';
+import { StylesProvider, createGenerateClassName } from '@material-ui/styles';
 
 import { isProd } from './utils';
 import App from './App';
@@ -36,6 +36,10 @@ const scripts = Object.entries(assets).map(asset => {
     return isProd ? `<script src="${asset[1].js}" defer></script>` : `<script src="${asset[1].js}" defer crossorigin></script>`
   }
 }).join('');
+
+const generateClassName = createGenerateClassName({
+  dangerouslyUseGlobalCSS: true,
+});
 
 const server = express();
 server
@@ -90,7 +94,7 @@ server
     }).then(() => {
       const markup = renderToString(
         <Provider store={store}>
-          <StylesProvider sheetsRegistry={sheetsRegistry} sheetsManager={new Map()}>
+          <StylesProvider sheetsRegistry={sheetsRegistry} sheetsManager={new Map()} generateClassName={generateClassName}>
             <StaticRouter context={context} location={req.url}>
               <App />
             </StaticRouter>
