@@ -24,6 +24,10 @@ import TBALamp from '../../icons/tba_lamp.svg'
 const styles = theme => ({
   appBarTitle: {
     flex: 1,
+    fontWeight: theme.typography.h6.fontWeight,
+    fontSize: theme.typography.h6.fontSize,
+    lineHeight: theme.typography.h6.lineHeight,
+    letterSpacing: theme.typography.h6.letterSpacing,
   },
   toolbar: {
     [theme.breakpoints.down('sm')]: {
@@ -86,7 +90,7 @@ class TBAAppBar extends PureComponent {
               {title}
             </div>
             :
-            <Typography variant="h6" color="inherit" className={classes.appBarTitle} noWrap>
+            <Typography variant="h1" color="inherit" className={classes.appBarTitle} noWrap>
               {title ? title : 'The Blue Alliance'}
             </Typography>
           }
