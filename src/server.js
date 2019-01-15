@@ -43,7 +43,7 @@ server
   .disable('x-powered-by')
   .use(compression())
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR, {index: false}))
-  .use('/api', proxy({ target: isProd ? 'https://tbatv-prod-hrd.appspot.com' : 'https://www.thebluealliance.com', changeOrigin: true }))
+  .use('/api', proxy({ target: 'https://www.thebluealliance.com', changeOrigin: true }))
   .get('/*', (req, res) => {
     // Set common headers
     res.setHeader('Vary', 'Accept-Encoding');  // Need to manually set for 304 responses
