@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>The Blue Alliance</ShortName>
+  <Description>Search The Blue Alliance: FIRST Robotics Competition teams, events, videos, results, and more!</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image height="48" width="48" type="image/png">https://beta.thebluealliance.com/icon-48.png</Image>
+  <Url type="text/html" method="get" template="https://beta.thebluealliance.com/search?q={searchTerms}"/>
+</OpenSearchDescription>
