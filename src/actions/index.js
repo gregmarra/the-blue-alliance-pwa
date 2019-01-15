@@ -28,6 +28,37 @@ export const setNav = (value) => ({
   value,
 })
 
+// Resetting Page
+export function setPageKey(pageKey) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.SET_PAGE_KEY,
+      pageKey,
+    })
+  }
+}
+
+export function resetPage(defaultState) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.RESET_PAGE,
+      pageKey: getState().getIn(['router', 'location', 'key']),
+      defaultState,
+    })
+  }
+}
+
+// Set page state
+export function setPageState(pageState) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.SET_PAGE_STATE,
+      pageKey: getState().getIn(['router', 'location', 'key']),
+      pageState,
+    })
+  }
+}
+
 // Snackbars
 export const openSnackbar = (value) => ({
   type: types.OPEN_SNACKBAR,

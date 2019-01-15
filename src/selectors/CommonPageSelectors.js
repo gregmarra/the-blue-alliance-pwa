@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect'
+import { Map } from 'immutable'
 import moment from 'moment'
 
 export const getCurrentYear = (state) => {
@@ -17,3 +19,19 @@ export const getYear = (state, props) => {
   }
   return getCurrentYear(state)
 }
+
+const getCurrentPageKey = (state, props) => {
+  return state.getIn(['page', 'currentKey'])
+}
+
+const getStateHistory = (state, props) => {
+  return state.getIn(['page', 'stateHistory'])
+}
+
+export const getCurrentPageState = createSelector(
+  [getCurrentPageKey, getStateHistory],
+  (pageKey, stateHistory) => {
+    const pageState = stateHistory.get(pageKey)
+    return pageState === undefined ? Map() : pageState
+  }
+)

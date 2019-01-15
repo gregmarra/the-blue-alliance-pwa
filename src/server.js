@@ -100,7 +100,8 @@ server
 
       const helmet = Helmet.renderStatic();
       const css = sheetsRegistry.toString();
-      const state = JSON.stringify(store.getState()).replace(/</g, '\\u003c'); // Be careful of XSS
+      // Remove parts of state that are client-only
+      const state = JSON.stringify(store.getState().delete('page')).replace(/</g, '\\u003c'); // Be careful of XSS
 
       if (context.url) {
         res.redirect(context.url);

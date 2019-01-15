@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
+import { setPageKey } from '../actions'
 import routes from '../routes';
 
 class ModalRouteSwitch extends React.Component {
@@ -108,6 +109,7 @@ const mapStateToProps = (state, props) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  setPageKey: basePageKey => dispatch(setPageKey(basePageKey)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalRouteSwitch);

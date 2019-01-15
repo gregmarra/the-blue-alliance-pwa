@@ -8,6 +8,11 @@ export const SET_NAV_VALUE = 'SET_NAV_VALUE'
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR'
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR'
 
+// Page state
+export const SET_PAGE_KEY = 'SET_PAGE_KEY'
+export const RESET_PAGE = 'RESET_PAGE'
+export const SET_PAGE_STATE = 'SET_PAGE_STATE'
+
 // API Status
 export const RECEIVE_API_STATUS = 'RECEIVE_API_STATUS'
 

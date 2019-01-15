@@ -5,10 +5,10 @@ import { connect } from 'react-redux'
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 // Actions
-import { fetchYearEvents } from '../actions'
+import { resetPage, setPageState, fetchYearEvents } from '../actions'
 
 // Selectors
-import { getYear } from '../selectors/CommonPageSelectors'
+import { getYear, getCurrentPageState } from '../selectors/CommonPageSelectors'
 import { getSortedEvents } from '../selectors/EventListPageSelectors'
 
 // Components
@@ -24,9 +24,12 @@ import EventListCard from '../components/EventListCard'
 const mapStateToProps = (state, props) => ({
   year: getYear(state, props),
   events: getSortedEvents(state, props),
+  searchText: getCurrentPageState(state, props).get('searchText') || '',
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  resetPage: (defaultState) => dispatch(resetPage(defaultState)),
+  setPageState: (state) => dispatch(setPageState(state)),
   fetchYearEvents: (year) => dispatch(fetchYearEvents(year)),
 });
 
@@ -70,10 +73,6 @@ const styles = theme => ({
 })
 
 class EventListPage extends PureComponent {
-  state = {
-    searchText: '',
-  }
-
   static getInitialData({ dispatch, match }) {
     return Promise.all([
       dispatch(fetchYearEvents(match.params.year)),
@@ -94,11 +93,14 @@ class EventListPage extends PureComponent {
   }
 
   handleTextFieldChange = e => {
-    this.setState({searchText: e.target.value});
+    this.props.setPageState({searchText: e.target.value});
   }
 
   constructor(props) {
     super(props);
+    this.props.resetPage({
+      searchText: '',
+    });
     this.searchRef = React.createRef();
   }
 
@@ -111,7 +113,7 @@ class EventListPage extends PureComponent {
   }
 
   render() {
-    const { classes, year, events } = this.props
+    const { classes, year, events, searchText } = this.props
 
     return (
       <TBAPage
@@ -135,14 +137,14 @@ class EventListPage extends PureComponent {
                 fullWidth
                 margin='normal'
                 onChange={this.handleTextFieldChange}
-                // defaultValue={filter}
+                value={searchText}
               />
             </Paper>
             {events && <div className={classes.list}>
               <EventListCard
                 events={events.filter(event =>
-                  event.name.toLowerCase().includes(this.state.searchText) ||
-                  event.getCityStateCountry().toLowerCase().includes(this.state.searchText)
+                  event.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                  event.getCityStateCountry().toLowerCase().includes(searchText.toLowerCase())
                 )}
               />
             </div>}
