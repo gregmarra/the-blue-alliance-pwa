@@ -5,6 +5,7 @@ import EventPage from './pages/EventPage';
 import MatchPage from './pages/MatchPage';
 import TeamListPage from './pages/TeamListPage';
 import TeamPage from './pages/TeamPage';
+import SearchPage from './pages/SearchPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 //const HomePage = Loadable({
@@ -50,6 +51,11 @@ export default [
   {
     path: '/team/:teamNumber/:year?',
     component: TeamPage,
+    exact: true,
+  },
+  {
+    path: '/search',
+    component: SearchPage,
     exact: true,
   },
   {

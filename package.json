@@ -25,6 +25,7 @@
     "lru-cache": "^5.1.1",
     "moment": "^2.23.0",
     "moment-timezone": "^0.5.23",
+    "query-string": "^6.2.0",
     "razzle": "3.0.0-alpha.1",
     "react": "16.7.0",
     "react-dom": "16.7.0",
