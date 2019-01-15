@@ -1,6 +1,7 @@
 import './bootstrap';
 import express from 'express';
 import compression from 'compression';
+import proxy from 'http-proxy-middleware';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { StaticRouter, matchPath } from 'react-router-dom';
@@ -42,6 +43,7 @@ server
   .disable('x-powered-by')
   .use(compression())
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR, {index: false}))
+  .use('/api', proxy({ target: isProd ? 'https://tbatv-prod-hrd.appspot.com' : 'https://www.thebluealliance.com', changeOrigin: true }))
   .get('/*', (req, res) => {
     // Set common headers
     res.setHeader('Vary', 'Accept-Encoding');  // Need to manually set for 304 responses
