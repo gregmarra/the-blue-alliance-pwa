@@ -16,12 +16,12 @@ import PeopleIcon from '@material-ui/icons/People'
 // import Avatar from '@material-ui/core/Avatar'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 // import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Switch from '@material-ui/core/Switch'
@@ -60,6 +60,10 @@ const styles = theme => ({
   },
   buildInfo: {
     padding: theme.spacing.unit,
+  },
+  toggle: {
+    width: '100%',
+    margin: 0,
   },
 })
 
@@ -117,15 +121,11 @@ class TBASideNavContent extends PureComponent {
           <Divider />
           <List>
             <ListSubheader>Temp for testing</ListSubheader>
-            <ListItem>
-              <ListItemText primary={darkTheme ? "Dark Theme" : "Light Theme"} />
-              <ListItemSecondaryAction>
-                <Switch
-                  onClick={toggleTheme}
-                  checked={!darkTheme}
-                />
-              </ListItemSecondaryAction>
-            </ListItem>
+            <FormControlLabel
+              className={classes.toggle}
+              control={<Switch onClick={toggleTheme} checked={!darkTheme} />}
+              label={darkTheme ? "Dark Theme" : "Light Theme"}
+            />
             {/*<ListItem>
               <ListItemText primary={apiEnabled ? "API Enabled" : "API Disabled"} />
               <ListItemSecondaryAction>

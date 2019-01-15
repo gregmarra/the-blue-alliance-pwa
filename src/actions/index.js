@@ -4,7 +4,7 @@ import fetch from 'isomorphic-unfetch'
 import moment from 'moment'
 import LRUCache from 'lru-cache';
 import { getCurrentYear } from '../selectors/CommonPageSelectors'
-import { isProd, isServer, canUseIDB } from '../utils'
+import { isServer, canUseIDB } from '../utils'
 
 import db, {
   addEvents,

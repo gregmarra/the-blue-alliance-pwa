@@ -77,8 +77,8 @@ class TBAAppBar extends PureComponent {
           {title ?
             <IconButton
               color="inherit"
-              aria-label="Back"
               onClick={this.props.goBack}
+              aria-label="Back"
             >
               <ArrowBackIcon />
             </IconButton>
@@ -98,7 +98,12 @@ class TBAAppBar extends PureComponent {
             <TBAAppBarSearch />
           </Hidden>*/}
           <Hidden mdUp implementation="css">
-            <IconButton color="inherit" component={Link} to={{pathname: '/search', state: {modal: true, searchModal: true}}}>
+            <IconButton
+              color="inherit"
+              component={Link}
+              to={{pathname: '/search', state: {modal: true, searchModal: true}}}
+              aria-label="Search"
+            >
               <SearchIcon />
             </IconButton>
           </Hidden>
@@ -108,11 +113,19 @@ class TBAAppBar extends PureComponent {
             </div>
           }
           {!this.props.isLoading && this.props.refreshFunction &&
-            <IconButton color="inherit" onClick={() => this.props.refreshFunction()}>
+            <IconButton
+              color="inherit"
+              onClick={() => this.props.refreshFunction()}
+              aria-label="Refresh"
+            >
               <RefreshIcon />
             </IconButton>
           }
-          <IconButton color="inherit" onClick={this.handleShare}>
+          <IconButton
+            color="inherit"
+            onClick={this.handleShare}
+            aria-label="Share"
+          >
             <ShareIcon />
           </IconButton>
         </Toolbar>
