@@ -73,9 +73,9 @@ const styles = theme => ({
 })
 
 class EventListPage extends PureComponent {
-  static getInitialData({ dispatch, match }) {
+  static getInitialData({ dispatch, state, props }) {
     return Promise.all([
-      dispatch(fetchYearEvents(match.params.year)),
+      dispatch(fetchYearEvents(getYear(state, props))),
     ])
   }
 

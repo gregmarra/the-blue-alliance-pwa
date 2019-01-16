@@ -3,7 +3,6 @@ import * as sources from '../constants/DataSources'
 import fetch from 'isomorphic-unfetch'
 import moment from 'moment'
 import LRUCache from 'lru-cache';
-import { getCurrentYear } from '../selectors/CommonPageSelectors'
 import { isServer, canUseIDB } from '../utils'
 
 import db, {
@@ -73,7 +72,6 @@ export const closeSnackbar = () => ({
 // API Calls
 const BASE_URL = 'https://www.thebluealliance.com';
 const TBA_KEY = '61bdelekzYp5TY5MueT8OokJsgT1ewwLjywZnTKCAYPCLDeoNnURu1O61DeNy8z3'; // TEMP: TODO replace key eventually
-const FALLBACK_YEAR = moment().year();
 
 const APICache = new LRUCache({
   max: 50, // Limit number of items
@@ -114,7 +112,7 @@ const handleErrors = (response) => {
 
 const createFetcher = ({
   dispatch,
-  state,
+  getState,
   endpointUrl,
   fetchOptions, // Optional
   fastQuery, // Optional
@@ -126,6 +124,7 @@ const createFetcher = ({
   writeDB,
 }) => {
   let dataSource = sources.DEFAULT
+  const state = getState();
 
   // Update from IndexedDB
   if (canUseIDB && state.getIn(['appState', 'idbEnabled'])) {
@@ -211,7 +210,7 @@ export function fetchAPIStatus() {
   return (dispatch, getState) => {
     return createFetcher({
       dispatch,
-      state: getState(),
+      getState,
       endpointUrl: `/api/v3/status`,
       query: db.config.where('key').equals('API_STATUS'),
       transformData: (status) => {
@@ -234,11 +233,10 @@ export function fetchAPIStatus() {
 // EventListPage
 export function fetchYearEvents(year) {
   return (dispatch, getState) => {
-    const state = getState()
-    year = parseInt(year, 10) || getCurrentYear(state) || FALLBACK_YEAR;
+    year = parseInt(year, 10)
     return createFetcher({
       dispatch,
-      state,
+      getState,
       endpointUrl: `/api/v3/events/${year}`,
       query: db.events.where('year').equals(year),
       isCollection: true,
@@ -261,7 +259,7 @@ export function fetchEventInfo(eventKey) {
   return (dispatch, getState) => {
     return createFetcher({
       dispatch,
-      state: getState(),
+      getState,
       endpointUrl: `/api/v3/event/${eventKey}`,
       query: db.events.where('key').equals(eventKey),
       createAction: (event) => {

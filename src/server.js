@@ -82,7 +82,8 @@ server
             promise: route.component.getInitialData
               ? route.component.getInitialData({
                   dispatch: store.dispatch,
-                  match,
+                  state: store.getState(),
+                  props: { match },
                 })
               : null,
           };

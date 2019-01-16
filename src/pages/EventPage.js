@@ -17,7 +17,7 @@ import Typography from '@material-ui/core/Typography'
 import TBAPage from '../components/TBAPage'
 
 const mapStateToProps = (state, props) => ({
-  eventKey: getEventKey(props.match),
+  eventKey: getEventKey(state, props),
   event: getEventModel(state, props),
 });
 
@@ -31,9 +31,9 @@ const styles = theme => ({
 })
 
 class EventPage extends PureComponent {
-  static getInitialData({ dispatch, match }) {
+  static getInitialData({ dispatch, state, props }) {
     return Promise.all([
-      dispatch(fetchEventInfo(getEventKey(match))),
+      dispatch(fetchEventInfo(getEventKey(state, props))),
     ])
   }
 

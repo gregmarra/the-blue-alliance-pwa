@@ -1,11 +1,11 @@
-import { createSelector } from 'reselect'
+// import { createSelector } from 'reselect'
 
-export const getEventKey = (match) => {
-  return match.params.eventKey
+export const getEventKey = (state, props) => {
+  return props.match.params.eventKey
 }
 
 export const getEventModel = (state, props) => {
-  return state.getIn(['models', 'events', 'byKey', getEventKey(props.match)])
+  return state.getIn(['models', 'events', 'byKey', getEventKey(state, props)])
 }
 
 // const getMatchesByKey = (state, props) => {
