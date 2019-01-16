@@ -192,7 +192,7 @@ class TBASideNavContent extends PureComponent {
               </a>
             </Typography>
             <Typography variant='caption'>
-              {BUILD_TIME} UTC
+              {BUILD_TIME}
             </Typography>
           </div>
         </div>

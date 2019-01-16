@@ -1,10 +1,10 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const child_process = require('child_process');
 
-const buildTime = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+const buildTime = moment().tz('America/New_York').format('YYYY-MM-DD HH:mm:ss z');
 const gitHash = process.env.GITHUB_SHA || child_process.execSync('git rev-parse HEAD').toString();
 
 module.exports = {
