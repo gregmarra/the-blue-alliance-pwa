@@ -4,6 +4,12 @@ import { withStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
+// Actions
+import { resetPage, setPageState, fetchEventInfo } from '../actions'
+
+// Selectors
+import { getEventKey, getEventModel } from '../selectors/EventPageSelectors'
+
 // Components
 import Typography from '@material-ui/core/Typography'
 
@@ -11,19 +17,52 @@ import Typography from '@material-ui/core/Typography'
 import TBAPage from '../components/TBAPage'
 
 const mapStateToProps = (state, props) => ({
+  eventKey: getEventKey(props.match),
+  event: getEventModel(state, props),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  resetPage: (defaultState) => dispatch(resetPage(defaultState)),
+  setPageState: (state) => dispatch(setPageState(state)),
+  fetchEventInfo: (eventKey) => dispatch(fetchEventInfo(eventKey)),
 });
 
 const styles = theme => ({
 })
 
 class EventPage extends PureComponent {
+  static getInitialData({ dispatch, match }) {
+    return Promise.all([
+      dispatch(fetchEventInfo(getEventKey(match))),
+    ])
+  }
+
+  refreshFunction = () => {
+    this.props.fetchEventInfo(this.props.eventKey)
+  }
+
+  constructor(props) {
+    super(props);
+    this.props.resetPage({});
+  }
+
   render() {
+    const { event } = this.props;
+
+    let name = null;
+    let year = null;
+    if (event) {
+      year = event.year;
+      name = `${event.name} (${year})`;
+    }
+
     return (
-      <TBAPage title='EVENT NAME'>
-        <Typography variant='h4' gutterBottom>EVENT NAME</Typography>
+      <TBAPage
+        title={name}
+        metaDescription={event && `Videos and match results for the ${year} ${event.name} FIRST Robotics Competition in ${event.getCityStateCountry()}.`}
+        refreshFunction={this.refreshFunction}
+      >
+        <Typography variant='h4' gutterBottom>{name}</Typography>
       </TBAPage>
     )
   }

@@ -7,6 +7,7 @@ import { getCurrentYear } from '../selectors/CommonPageSelectors'
 import { isServer, canUseIDB } from '../utils'
 
 import db, {
+  addEvent,
   addEvents,
 } from '../database/db'
 
@@ -250,6 +251,28 @@ export function fetchYearEvents(year) {
       },
       writeDB: (events) => {
         addEvents(events)
+      },
+    })
+  }
+}
+
+// EventPage
+export function fetchEventInfo(eventKey) {
+  return (dispatch, getState) => {
+    return createFetcher({
+      dispatch,
+      state: getState(),
+      endpointUrl: `/api/v3/event/${eventKey}`,
+      query: db.events.where('key').equals(eventKey),
+      createAction: (event) => {
+        return {
+          type: types.RECEIVE_EVENT_INFO,
+          eventKey,
+          data: event,
+        }
+      },
+      writeDB: (event) => {
+        addEvent(event)
       },
     })
   }

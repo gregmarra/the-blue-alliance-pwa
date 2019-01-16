@@ -41,7 +41,7 @@ export default db;
 //   db.awardTeams.bulkPut(awardTeams)
 // }
 
-// export const addEvent = (event) => db.events.put(event)
+export const addEvent = (event) => db.events.put(event)
 
 export const addEvents = (events) => db.events.bulkPut(events)
 

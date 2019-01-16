@@ -115,12 +115,12 @@ const models = (state = Map(), action) => {
     //     'media',
     //     ['byTeamYear', action.teamKey, action.year],
     //     fromJS(action.data).map(o => new Media(o)))
-    // case types.RECEIVE_EVENT_INFO:
-    //   return updateSingle(
-    //     state,
-    //     'events',
-    //     action.eventKey,
-    //     new Event(fromJS(action.data)))
+    case types.RECEIVE_EVENT_INFO:
+      return updateSingle(
+        state,
+        'events',
+        action.eventKey,
+        new Event(fromJS(action.data)))
     case types.RECEIVE_YEAR_EVENTS:
       return updateMulti(
         state,
