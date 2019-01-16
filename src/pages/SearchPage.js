@@ -24,10 +24,10 @@ const styles = theme => ({
 class SearchPage extends PureComponent {
   render() {
     const searchQuery = queryString.parse(this.props.location.search).q;
-    if (/^\d+$/.test(searchQuery)) {
+    if (/^[1-9]\d*$/.test(searchQuery)) {
       return <Redirect to={`/team/${searchQuery}`} />
     }
-    if (/^\d{4}[a-zA-Z\d]+$/.test(searchQuery)) {
+    if (/^[1-9]\d{3}[a-z]+[0-9]{0,2}$/.test(searchQuery)) {
       return <Redirect to={`/event/${searchQuery}`} />
     }
     return (
