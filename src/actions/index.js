@@ -82,7 +82,7 @@ const handleErrors = (response) => {
   }
 
   if (!response.ok) {
-    throw Error(response.statusText)
+    throw { statusCode: response.status }
   }
 
   if (canUseIDB) {
@@ -197,10 +197,17 @@ const createFetcher = ({
         }
       }
       dispatch(decrementLoadingCount())
+      dispatch({
+        type: types.SET_STATUS_CODE,
+        statusCode: 200,
+      })
     })
     .catch(error => {
       dispatch(decrementLoadingCount())
-      console.log(error)
+      dispatch({
+        type: types.SET_STATUS_CODE,
+        statusCode: error.statusCode,
+      })
     });
   }
 }

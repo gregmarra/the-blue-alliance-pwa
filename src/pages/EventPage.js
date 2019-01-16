@@ -8,6 +8,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { resetPage, setPageState, fetchEventInfo } from '../actions'
 
 // Selectors
+import { getStatusCode } from '../selectors/CommonPageSelectors'
 import { getEventKey, getEventModel } from '../selectors/EventPageSelectors'
 
 // Components
@@ -15,8 +16,10 @@ import Typography from '@material-ui/core/Typography'
 
 // TBA Components
 import TBAPage from '../components/TBAPage'
+import NotFoundPage from './NotFoundPage'
 
 const mapStateToProps = (state, props) => ({
+  statusCode: getStatusCode(state, props),
   eventKey: getEventKey(state, props),
   event: getEventModel(state, props),
 });
@@ -47,6 +50,10 @@ class EventPage extends PureComponent {
   }
 
   render() {
+    if (this.props.statusCode === 404) {
+      return  <NotFoundPage {...this.props} />
+    }
+
     const { event } = this.props;
 
     let name = null;

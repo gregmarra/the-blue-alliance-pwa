@@ -2,6 +2,10 @@ import { createSelector } from 'reselect'
 import { Map } from 'immutable'
 import moment from 'moment'
 
+export const getStatusCode = (state, props) => {
+  return state.getIn(['appState', 'statusCode'])
+}
+
 export const getCurrentYear = (state) => {
   const year = state.getIn(['models', 'config', 'byKey', 'API_STATUS', 'current_season'])
   return year ? year : moment().year()

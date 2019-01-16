@@ -13,6 +13,7 @@ const updateLoadingCount = (state = 0, action) => {
 }
 
 export const defaultAppState = Map({
+  statusCode: null,
   loadingCount: 0,
   darkTheme: false,
   apiEnabled: true,
@@ -23,6 +24,8 @@ export const defaultAppState = Map({
 
 const appState = (state = defaultAppState, action) => {
   switch (action.type) {
+    case types.SET_STATUS_CODE:
+      return state.set('statusCode', action.statusCode)
     case types.INCREMENT_LOADING_COUNT:
     case types.DECREMENT_LOADING_COUNT:
       return state

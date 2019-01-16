@@ -8,7 +8,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { resetPage, setPageState, fetchYearEvents } from '../actions'
 
 // Selectors
-import { getYear, getCurrentPageState } from '../selectors/CommonPageSelectors'
+import { getStatusCode, getYear, getCurrentPageState } from '../selectors/CommonPageSelectors'
 import { getSortedEvents } from '../selectors/EventListPageSelectors'
 
 // Components
@@ -19,9 +19,11 @@ import Typography from '@material-ui/core/Typography'
 
 // TBA Components
 import TBAPage from '../components/TBAPage'
+import NotFoundPage from './NotFoundPage'
 import EventListCard from '../components/EventListCard'
 
 const mapStateToProps = (state, props) => ({
+  statusCode: getStatusCode(state, props),
   year: getYear(state, props),
   events: getSortedEvents(state, props),
   searchText: getCurrentPageState(state, props).get('searchText') || '',
@@ -113,6 +115,10 @@ class EventListPage extends PureComponent {
   }
 
   render() {
+    if (this.props.statusCode === 404) {
+      return  <NotFoundPage {...this.props} />
+    }
+
     const { classes, year, events, searchText } = this.props
 
     return (
